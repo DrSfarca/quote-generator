@@ -5,7 +5,7 @@ const twitterBtn = document.getElementById('twitter-button')
 const newQuoteBtn = document.getElementById('new-quote')
 const loader = document.getElementById('loader')
 
-function loading() {
+function showLoadingSpinner() {
   loader.hidden = false
   quoteContainer.hidden = true
 }
@@ -16,7 +16,7 @@ function complete() {
 }
 
 function newQuote() {
-  loading()
+  showLoadingSpinner()
   const quote = localQuotes[Math.floor(Math.random() * localQuotes.length)]
 
   authorText.textContent = !quote.author ? 'Anonymous' : quote.author
@@ -31,13 +31,15 @@ function newQuote() {
 }
 
 async function getQuotes() {
-  loading()
+  showLoadingSpinner()
   const apiUrl = 'https://type.fit/api/quotes'
   try {
     const res = await fetch(apiUrl)
     apiQuotes = await res.json()
     newQuote()
-  } catch (error) {}
+  } catch (error) {
+    console.log(error.message)
+  }
 }
 
 function tweetQuote() {
